@@ -29,86 +29,85 @@ import java.util.UUID
 
 const val SECURITY_SCHEME = "Auth"
 
-fun Application.configureDocumentation() =
-    with(getKoin()) {
-        val swaggerUrls = getProperty<List<String>>(ApplicationConfiguration.SWAGGER_URLS)
+fun Application.configureDocumentation() {
+    val swaggerUrls = getKoin().getProperty<List<String>>(ApplicationConfiguration.SWAGGER_URLS)
 
-        install(Webjars) {
-            path = "/webjars"
+    install(Webjars) {
+        path = "/webjars"
+    }
+
+    install(SwaggerUI) {
+        info {
+            title = "Todo API"
+            version = "0.0.1"
+            description = "Todo API"
         }
 
-        install(SwaggerUI) {
-            info {
-                title = "Coffee shop API"
-                version = "0.0.1"
-                description = "Coffee shop API"
+        swagger {
+            showTagFilterInput = true
+            withCredentials = true
+        }
+
+        security {
+            securityScheme(SECURITY_SCHEME) {
+                type = AuthType.HTTP
+                scheme = AuthScheme.BEARER
+                bearerFormat = "JWT"
             }
 
-            swagger {
-                showTagFilterInput = true
-                withCredentials = true
-            }
+            defaultSecuritySchemeNames(SECURITY_SCHEME)
 
-            security {
-                securityScheme(SECURITY_SCHEME) {
-                    type = AuthType.HTTP
-                    scheme = AuthScheme.BEARER
-                    bearerFormat = "JWT"
-                }
-
-                defaultSecuritySchemeNames(SECURITY_SCHEME)
-
-                defaultUnauthorizedResponse {
-                    description = SessionViolation.InvalidToken().message
-                }
-            }
-
-            schemas {
-                generator = {
-                    it
-                        .processReflection {
-                            redirect<UUID, String>()
-                            redirect<Instant, String>()
-                        }.generateSwaggerSchema()
-                        .withTitle(TitleType.SIMPLE)
-                        .compileReferencingRoot()
-                }
-
-                overwrite<File>(
-                    Schema<Any>().apply {
-                        type = "string"
-                        format = "binary"
-                    },
-                )
-
-                overwrite<UUID>(
-                    Schema<Any>().apply {
-                        type = "string"
-                        format = "uuid"
-                    },
-                )
-            }
-
-            swaggerUrls.forEach {
-                server { url = it }
+            defaultUnauthorizedResponse {
+                description = SessionViolation.InvalidToken().message
             }
         }
 
-        routing {
-            route("/") {
-                get({
-                    hidden = true
-                }) {
-                    call.respondRedirect("/swagger-ui")
-                }
+        schemas {
+            generator = {
+                it
+                    .processReflection {
+                        redirect<UUID, String>()
+                        redirect<Instant, String>()
+                    }.generateSwaggerSchema()
+                    .withTitle(TitleType.SIMPLE)
+                    .compileReferencingRoot()
             }
 
-            // Will redirect to http://index.html if '/' route is used.
-            route("/swagger-ui") {
-                swaggerUI("/api.json")
-            }
-            route("api.json") {
-                openApiSpec()
-            }
+            overwrite<File>(
+                Schema<Any>().apply {
+                    type = "string"
+                    format = "binary"
+                },
+            )
+
+            overwrite<UUID>(
+                Schema<Any>().apply {
+                    type = "string"
+                    format = "uuid"
+                },
+            )
+        }
+
+        swaggerUrls.forEach {
+            server { url = it }
         }
     }
+
+    routing {
+        route("/") {
+            get({
+                hidden = true
+            }) {
+                call.respondRedirect("/swagger-ui")
+            }
+        }
+
+        // Will redirect to http://index.html if '/' route is used.
+        route("/swagger-ui") {
+            swaggerUI("/api.json")
+        }
+        route("api.json") {
+            openApiSpec()
+        }
+    }
+}
