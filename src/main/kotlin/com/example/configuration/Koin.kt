@@ -13,7 +13,6 @@ import com.example.app.user.infrastructure.repository.UserRepositoryImpl
 import com.example.shared.infrastructure.persistence.ExposedTransactionManager
 import com.example.shared.infrastructure.persistence.TransactionManager
 import com.example.shared.util.koin.ApplicationConfiguration
-import com.example.shared.util.koin.injectDefaultUserConfiguration
 import com.example.shared.util.koin.injectJwtConfiguration
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -50,7 +49,6 @@ fun Koin.getUseCaseModule(): Module =
             AuthenticationUseCaseImpl(
                 get(),
                 injectJwtConfiguration(),
-                injectDefaultUserConfiguration(),
             )
         }
 

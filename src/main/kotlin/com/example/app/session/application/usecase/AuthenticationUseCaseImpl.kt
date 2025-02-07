@@ -3,7 +3,6 @@ package com.example.app.session.application.usecase
 import com.auth0.jwt.JWT
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.example.app.session.application.dto.DefaultUserConfiguration
 import com.example.app.session.application.dto.LoginRequest
 import com.example.app.session.application.dto.RefreshRequest
 import com.example.app.session.application.dto.TokenResponse
@@ -29,7 +28,6 @@ import java.util.UUID
 class AuthenticationUseCaseImpl(
     private val userRepository: UserRepository,
     private val jwtConfiguration: JwtConfiguration,
-    private val defaultUserConfiguration: DefaultUserConfiguration,
 ) : AuthenticationUseCase {
     override fun login(rq: LoginRequest): TokenResponse {
         val userEntity =
@@ -84,23 +82,14 @@ class AuthenticationUseCaseImpl(
     private fun createDefaultUser(phoneNumber: String): UserEntity =
         userRepository
             .save(
-                UserEntity(
-                    phoneNumber = phoneNumber,
-                    defaultUserConfiguration = defaultUserConfiguration,
-                ),
+                UserEntity(phoneNumber = phoneNumber),
             )
 }
 
-private fun UserEntity(
-    phoneNumber: String,
-    defaultUserConfiguration: DefaultUserConfiguration,
-): UserEntity =
+private fun UserEntity(phoneNumber: String): UserEntity =
     UserEntity(
         id = UUID.randomUUID(),
         phoneNumber = phoneNumber,
         displayName = null,
-        energyLevel = defaultUserConfiguration.energyLevel,
-        businessBalance = defaultUserConfiguration.businessBalance,
-        personalBalance = defaultUserConfiguration.personalBalance,
         createdAt = Clock.System.now(),
     )

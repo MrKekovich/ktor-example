@@ -11,8 +11,4 @@ interface UserUseCase {
         userId: UUID,
         request: UpdateUserRequest,
     ): UserEntity
-
-    fun addCash(userId: UUID): UserEntity
-
-    fun addEnergy(userId: UUID): UserEntity
 }

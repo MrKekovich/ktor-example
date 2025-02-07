@@ -8,7 +8,6 @@ import com.example.shared.util.ext.requestBody
 import com.example.shared.util.ext.successResponse
 import io.github.smiley4.ktorswaggerui.dsl.routing.get
 import io.github.smiley4.ktorswaggerui.dsl.routing.patch
-import io.github.smiley4.ktorswaggerui.dsl.routing.post
 import io.github.smiley4.ktorswaggerui.dsl.routing.route
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -25,55 +24,29 @@ fun Route.userRoutes() {
         tags(USER_TAG)
         description = "User routes"
     }) {
-        route("/me", {
-            description = "Current user routes"
+        get({
+            description = "Get current user"
+            successResponse<UserEntity>()
         }) {
-            get({
-                description = "Get current user"
-                successResponse<UserEntity>()
-            }) {
-                val userId = getUserPrincipalOrThrow().id
+            val userId = getUserPrincipalOrThrow().id
 
-                val response = userUseCase.findById(userId)
+            val response = userUseCase.findById(userId)
 
-                call.respond(response)
-            }
+            call.respond(response)
+        }
 
-            patch({
-                description = "Update current user"
-                requestBody<UpdateUserRequest>()
-                successResponse<UserEntity>()
-            }) {
-                val userId = getUserPrincipalOrThrow().id
+        patch({
+            description = "Update current user"
+            requestBody<UpdateUserRequest>()
+            successResponse<UserEntity>()
+        }) {
+            val userId = getUserPrincipalOrThrow().id
 
-                val request = call.receive<UpdateUserRequest>()
+            val request = call.receive<UpdateUserRequest>()
 
-                val response = userUseCase.update(userId, request)
+            val response = userUseCase.update(userId, request)
 
-                call.respond(response)
-            }
-
-            post("/add-cash", {
-                description = "Add 5000 cash (FOR TESTS ONLY)"
-                successResponse<UserEntity>()
-            }) {
-                val userId = getUserPrincipalOrThrow().id
-
-                val response = userUseCase.addCash(userId)
-
-                call.respond(response)
-            }
-
-            post("/add-energy", {
-                description = "Add 10 energy (FOR TESTS ONLY)"
-                successResponse<UserEntity>()
-            }) {
-                val userId = getUserPrincipalOrThrow().id
-
-                val response = userUseCase.addEnergy(userId)
-
-                call.respond(response)
-            }
+            call.respond(response)
         }
     }
 }

@@ -10,9 +10,6 @@ import java.util.UUID
 object UserTable : UUIDTable("users") {
     val phoneNumber = varchar("phone_number", 255).uniqueIndex()
     val displayName = varchar("display_name", 255).nullable()
-    val energyLevel = integer("energy_level")
-    val businessBalance = integer("business_balance")
-    val personalBalance = integer("personal_balance")
     val createdAt = timestamp("created_at")
 }
 
@@ -23,8 +20,5 @@ class UserDao(
 
     var phoneNumber by UserTable.phoneNumber
     var displayName by UserTable.displayName
-    var energyLevel by UserTable.energyLevel
-    var businessBalance by UserTable.businessBalance
-    var personalBalance by UserTable.personalBalance
     var createdAt by UserTable.createdAt
 }

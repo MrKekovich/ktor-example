@@ -26,19 +26,4 @@ class UserUseCaseImpl(
                 displayName = request.displayName ?: it.displayName,
             )
         } ?: notFound(UserViolation.UserNotFound(userId))
-
-    // TODO: Remove after testing
-    override fun addCash(userId: UUID): UserEntity =
-        userRepository.update(userId) {
-            it.copy(
-                businessBalance = it.businessBalance + 5000,
-            )
-        } ?: notFound(UserViolation.UserNotFound(userId))
-
-    override fun addEnergy(userId: UUID): UserEntity =
-        userRepository.update(userId) {
-            it.copy(
-                energyLevel = it.energyLevel + 10,
-            )
-        } ?: notFound(UserViolation.UserNotFound(userId))
 }

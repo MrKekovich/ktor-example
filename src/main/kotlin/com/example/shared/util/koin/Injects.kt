@@ -2,7 +2,6 @@ package com.example.shared.util.koin
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.example.app.session.application.dto.DefaultUserConfiguration
 import com.example.shared.application.dto.JwtConfiguration
 import org.koin.core.Koin
 
@@ -26,14 +25,6 @@ fun Koin.injectJwtConfiguration(): JwtConfiguration {
         verifier = verifier,
     )
 }
-
-// TODO: Remove hardcoded values
-fun Koin.injectDefaultUserConfiguration(): DefaultUserConfiguration =
-    DefaultUserConfiguration(
-        energyLevel = 1000, // TODO: set to 100
-        businessBalance = 60000,
-        personalBalance = 10000,
-    )
 
 fun <T> Koin.getProperty(key: ApplicationConfiguration): T =
     getProperty(key.name)

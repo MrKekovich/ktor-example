@@ -68,9 +68,6 @@ private fun entityToDaoClosure(entity: UserEntity): UserDao.() -> Unit =
     {
         phoneNumber = entity.phoneNumber
         displayName = entity.displayName
-        energyLevel = entity.energyLevel
-        businessBalance = entity.businessBalance
-        personalBalance = entity.personalBalance
         // createdAt must be set explicitly
     }
 
@@ -79,8 +76,5 @@ private fun UserDao.toEntity(): UserEntity =
         id = id.value,
         phoneNumber = phoneNumber,
         displayName = displayName,
-        energyLevel = energyLevel,
-        businessBalance = businessBalance,
-        personalBalance = personalBalance,
         createdAt = createdAt,
     )
