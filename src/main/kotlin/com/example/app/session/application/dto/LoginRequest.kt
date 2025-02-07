@@ -1,7 +1,7 @@
 package com.example.app.session.application.dto
 
 import com.example.shared.application.dto.Validatable
-import com.example.shared.util.validation.rule.namedMatchesRussianPhoneNumber
+import com.example.shared.util.validation.rule.namedMatchesPhoneNumber
 import io.github.kverify.core.jvm.model.toNamed
 import io.github.kverify.core.model.ValidationResult
 import io.github.kverify.core.validator.validateAll
@@ -16,7 +16,7 @@ data class LoginRequest(
     override fun validate(): ValidationResult =
         validateAll {
             ::phoneNumber.toNamed().applyRules(
-                StringRules.namedMatchesRussianPhoneNumber(),
+                StringRules.namedMatchesPhoneNumber(),
             )
 
             ::code.toNamed().applyRules(

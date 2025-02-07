@@ -7,11 +7,15 @@ import io.github.kverify.core.model.NamedValue
 import io.github.kverify.core.model.Rule
 import io.github.kverify.rule.set.StringRules
 
-fun StringRules.Companion.namedMatchesRussianPhoneNumber(): Rule<NamedValue<String>> =
+fun StringRules.Companion.namedMatchesPhoneNumber(): Rule<NamedValue<String>> =
     NamedRule { namedValue ->
         validate(
-            namedValue.value.matches(Regex("^\\+7\\d{10}\$")),
+            namedValue.value.matches(
+                Regex(
+                    "\\+?\\d{1,3}?[-.\\s]?\\(?\\d{1,4}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}",
+                ),
+            ),
         ) {
-            StringViolation.MatchesRussianPhoneNumber(namedValue)
+            StringViolation.MatchesPhoneNumber(namedValue)
         }
     }

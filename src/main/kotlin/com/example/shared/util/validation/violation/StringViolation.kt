@@ -69,13 +69,13 @@ sealed class StringViolation(
     }
 
     @Serializable
-    data class MatchesRussianPhoneNumber(
+    data class MatchesPhoneNumber(
         override val message: String,
     ) : StringViolation(StringCode.NUMERIC) {
         constructor(
             namedValue: NamedValue<String>,
         ) : this(
-            "'${namedValue.name}' must match regex pattern ^\\+7\\d{10}\$ (leading +7 and 10 digits)",
+            "'${namedValue.name}' must be a number",
         )
     }
 
