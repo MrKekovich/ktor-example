@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktor)
+    alias(libs.plugins.shadow.jar)
 }
 
 group = "com.example"
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
     implementation(libs.flyway.database.postgresql)
+    implementation(libs.h2)
 
     // Koin
     implementation(libs.koin.ktor)
@@ -88,7 +90,6 @@ dependencies {
     testImplementation(libs.kotest.assertions.core)
     testImplementation(libs.kotest.property)
     testImplementation(libs.mockk)
-    testImplementation(libs.h2)
 }
 
 // Verification

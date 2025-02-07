@@ -3,7 +3,7 @@
 kotlinx-datetime = "0.6.0"
 
 # Ktor
-ktor = "3.0.3"
+ktor = "2.3.12"
 
 # Swagger
 kenerator = "1.4.1"
