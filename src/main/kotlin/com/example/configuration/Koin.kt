@@ -2,6 +2,10 @@ package com.example.configuration
 
 import com.example.app.session.application.usecase.AuthenticationUseCaseImpl
 import com.example.app.session.domain.usecase.AuthenticationUseCase
+import com.example.app.todo.application.usecase.TodoUseCaseImpl
+import com.example.app.todo.domain.repository.TodoRepository
+import com.example.app.todo.domain.usecase.TodoUseCase
+import com.example.app.todo.infrastructure.repository.TodoRepositoryImpl
 import com.example.app.user.application.usecase.UserUseCaseImpl
 import com.example.app.user.domain.repository.UserRepository
 import com.example.app.user.domain.usecase.UserUseCase
@@ -36,6 +40,8 @@ fun Koin.getRepositoryModule(): Module =
         single<TransactionManager> { ExposedTransactionManager }
 
         single<UserRepository> { UserRepositoryImpl() }
+
+        single<TodoRepository> { TodoRepositoryImpl() }
     }
 
 fun Koin.getUseCaseModule(): Module =
@@ -49,4 +55,6 @@ fun Koin.getUseCaseModule(): Module =
         }
 
         single<UserUseCase> { UserUseCaseImpl(get()) }
+
+        single<TodoUseCase> { TodoUseCaseImpl(get()) }
     }

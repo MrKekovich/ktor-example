@@ -1,5 +1,7 @@
 package com.example.configuration
 
+import com.example.app.todo.infrastructure.persistence.TodoTable
+import com.example.app.user.infrastructure.persistence.UserTable
 import com.example.shared.util.koin.ApplicationConfiguration
 import com.example.shared.util.koin.getProperty
 import io.ktor.server.application.Application
@@ -10,7 +12,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.getKoin
 
 val databaseTableRegistry =
-    arrayOf<Table>()
+    arrayOf<Table>(
+        UserTable,
+        TodoTable,
+    )
 
 fun Application.configureDatabase(): Unit =
     with(getKoin()) {
